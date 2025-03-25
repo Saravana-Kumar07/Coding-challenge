@@ -164,7 +164,7 @@ SELECT C.*, V.Name AS VictimName, S.Name AS SuspectName FROM Crime C
 JOIN Victim V ON C.CrimeID = V.CrimeID
 JOIN Suspect S ON C.CrimeID = S.CrimeID AND V.Name = S.Name;
 ```
-- No data as there are no more than 1 open cases
+- No data as there are no such cases.
 
 
 
