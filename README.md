@@ -57,3 +57,9 @@ VALUES
 SELECT * FROM Crime WHERE Status = 'Open';
 ```
 <img src="./outputs/o1.png" width="500" />
+
+### 2. Find the total number of incidents
+```sql
+SELECT COUNT(*) AS TotalIncidents FROM Crime;
+```
+<img src="./outputs/o2.png" width="200" />
