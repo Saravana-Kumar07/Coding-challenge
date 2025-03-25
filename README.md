@@ -138,6 +138,6 @@ SELECT DISTINCT C.IncidentType from Crime C
 LEFT JOIN Victim V on V.CrimeID=C.CrimeID
 where V.age=30 or V.age=35
 ```
-<img src="./outputs/o10.png" width="300" />
+<img src="./outputs/o10.png" width="200" />
 
 
