@@ -182,4 +182,47 @@ WHERE S.Age > ANY (SELECT Age FROM Victim WHERE CrimeID = C.CrimeID);
 ```
 <img src="./outputs/o13.png" width="600" />
 
+### 16. Find suspects involved in multiple incidents:
+```sql
+SELECT SuspectID, Name, COUNT(CrimeID) AS IncidentCount FROM Suspect
+GROUP BY SuspectID, Name
+HAVING COUNT(CrimeID) > 1;
+```
+- No data as there are no such cases.
+
+### 17. List incidents with no suspects involved.
+```sql
+SELECT C.* FROM Crime C
+LEFT JOIN Suspect S ON C.CrimeID = S.CrimeID
+WHERE S.Name = 'Unknown';
+```
+<img src="./outputs/o14.png" width="600" />
+
+### 18. List all cases where at least one incident is of type 'Homicide' and all other incidents are of type 'Robbery'.
+```sql
+SELECT*FROM Crime C
+WHERE C.IncidentType = 'Homicide'
+   OR (C.IncidentType = 'Robbery' AND NOT EXISTS (
+       SELECT 1 FROM Crime C2
+       WHERE C2.CrimeID = C.CrimeID
+         AND C2.IncidentType = 'Homicide')
+);
+```
+<img src="./outputs/o15.png" width="600" />
+
+### 19. Retrieve a list of all incidents and the associated suspects, showing suspects for each incident, or 'No Suspect' if there are none. 
+```sql
+SELECT C.*, IFNULL(S.Name, 'No Suspect') AS SuspectName FROM Crime C
+LEFT JOIN Suspect S ON C.CrimeID = S.CrimeID AND S.Name <> 'Unknown';
+```
+<img src="./outputs/o16.png" width="600" />
+
+### 20. List all suspects who have been involved in incidents with incident types 'Robbery' or 'Assault'  
+```sql
+SELECT S.* FROM Suspect S
+JOIN Crime C ON S.CrimeID = C.CrimeID
+WHERE C.IncidentType IN ('Robbery', 'Assault');
+```
+<img src="./outputs/o17.png" width="600" />
+
 
