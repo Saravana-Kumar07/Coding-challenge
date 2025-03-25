@@ -63,3 +63,15 @@ SELECT * FROM Crime WHERE Status = 'Open';
 SELECT COUNT(*) AS TotalIncidents FROM Crime;
 ```
 <img src="./outputs/o2.png" width="200" />
+
+### 3. List all unique incident types
+```sql
+SELECT DISTINCT IncidentType FROM Crime
+```
+<img src="./outputs/o3.png" width="300" />
+
+### 4. Retrieve incidents that occurred between '2023-09-01' and '2023-09-10'
+```sql
+SELECT * FROM Crime WHERE IncidentDate BETWEEN '2023-09-01' AND '2023-09-10';
+```
+<img src="./outputs/o4.png" width="500" />
