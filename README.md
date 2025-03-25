@@ -166,6 +166,20 @@ JOIN Suspect S ON C.CrimeID = S.CrimeID AND V.Name = S.Name;
 ```
 - No data as there are no such cases.
 
+### 14. Retrieve all incidents along with victim and suspect details
+```sql
+SELECT C.*, V.Name, V.ContactInfo, V.Injuries, S.Name, S.Description, S.CriminalHistory FROM Crime C
+LEFT JOIN Victim V ON C.CrimeID = V.CrimeID
+LEFT JOIN Suspect S ON C.CrimeID = S.CrimeID;
+```
+<img src="./outputs/o12.png" width="600" />
 
+### 15. Find incidents where the suspect is older than any victim.
+```sql
+SELECT C.* FROM Crime C
+JOIN Suspect S ON C.CrimeID = S.CrimeID
+WHERE S.Age > ANY (SELECT Age FROM Victim WHERE CrimeID = C.CrimeID);
+```
+<img src="./outputs/o13.png" width="600" />
 
 
