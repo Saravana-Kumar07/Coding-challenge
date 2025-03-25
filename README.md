@@ -75,3 +75,69 @@ SELECT DISTINCT IncidentType FROM Crime
 SELECT * FROM Crime WHERE IncidentDate BETWEEN '2023-09-01' AND '2023-09-10';
 ```
 <img src="./outputs/o4.png" width="500" />
+
+### 5. List persons involved in incidents in descending order of age.
+- Adding and inserting data for the column age: 
+```sql
+ALTER TABLE Victim ADD Age INT;
+
+UPDATE Victim SET Age = 28 WHERE VictimId = 1;
+UPDATE Victim SET Age = 35 WHERE VictimId = 2;
+UPDATE Victim SET Age = 43 WHERE VictimId = 3;
+
+ALTER TABLE Suspect ADD Age INT;
+
+UPDATE Suspect SET Age = 28 WHERE SuspectId = 1;
+UPDATE Suspect SET Age = 52 WHERE SuspectId = 2;
+UPDATE Suspect SET Age = 39 WHERE SuspectId = 3;
+```
+- List persons involved in incidents in descending order of age.
+```sql
+SELECT Name, Age FROM Victim UNION
+SELECT Name, Age FROM Suspect
+ORDER BY Age DESC;
+```
+<img src="./outputs/o5.png" width="400" />
+
+### 6. Find the average age of persons involved in incidents
+```sql
+SELECT AVG(Age) AS average_age FROM (
+    SELECT Age FROM Victim UNION
+    SELECT Age FROM Suspect
+) AS avgage;
+```
+<img src="./outputs/o6.png" width="300" />
+
+### 7. List incident types and their counts, only for open cases.
+```sql
+SELECT IncidentType, COUNT(*) AS Totalcount FROM Crime WHERE Status = 'Open' GROUP BY IncidentType;
+```
+<img src="./outputs/o7.png" width="300" />
+
+### 8. Find persons with names containing 'Doe'.
+```sql
+SELECT Name FROM Victim WHERE Name LIKE '%Doe%'
+```
+<img src="./outputs/o8.png" width="200" />
+
+### 9. Retrieve the names of persons involved in open cases and closed cases.
+```sql
+SELECT Name FROM Victim WHERE CrimeID IN (SELECT CrimeID FROM Crime WHERE Status = 'Open')
+UNION
+SELECT Name FROM Suspect WHERE CrimeID IN (SELECT CrimeID FROM Crime WHERE Status = 'Open')
+UNION
+SELECT Name FROM Victim WHERE CrimeID IN (SELECT CrimeID FROM Crime WHERE Status = 'Closed')
+UNION
+SELECT Name FROM Suspect WHERE CrimeID IN (SELECT CrimeID FROM Crime WHERE Status = 'Closed');
+```
+<img src="./outputs/o9.png" width="400" />
+
+### 10. List incident types where there are persons aged 30 or 35 involved.
+```sql
+SELECT DISTINCT C.IncidentType from Crime C
+LEFT JOIN Victim V on V.CrimeID=C.CrimeID
+where V.age=30 or V.age=35
+```
+<img src="./outputs/o10.png" width="300" />
+
+
