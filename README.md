@@ -138,6 +138,34 @@ SELECT DISTINCT C.IncidentType from Crime C
 LEFT JOIN Victim V on V.CrimeID=C.CrimeID
 where V.age=30 or V.age=35
 ```
-<img src="./outputs/o10.png" width="200" />
+<img src="./outputs/o10.png" width="250" />
+
+### 11. Find persons involved in incidents of the same type as 'Robbery'.
+```sql
+SELECT Name FROM Victim
+WHERE CrimeID IN (SELECT CrimeID FROM Crime WHERE IncidentType = 'Robbery')
+UNION
+SELECT Name FROM Suspect
+WHERE CrimeID IN (SELECT CrimeID FROM Crime WHERE IncidentType = 'Robbery');
+```
+<img src="./outputs/o11.png" width="300" />
+
+### 12. List incident types with more than one open case.
+```sql
+SELECT IncidentType, COUNT(*) AS OpenCases FROM Crime
+WHERE Status = 'Open' GROUP BY IncidentType
+HAVING COUNT(*) > 1;
+```
+- No data as there are no more than 1 open cases
+
+### 13. List all incidents with suspects whose names also appear as victims in other incidents.
+```sql
+SELECT C.*, V.Name AS VictimName, S.Name AS SuspectName FROM Crime C
+JOIN Victim V ON C.CrimeID = V.CrimeID
+JOIN Suspect S ON C.CrimeID = S.CrimeID AND V.Name = S.Name;
+```
+- No data as there are no more than 1 open cases
+
+
 
 
